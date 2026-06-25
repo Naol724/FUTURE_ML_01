@@ -1,5 +1,3 @@
----
-
 # 📈 Sales & Demand Forecasting for Businesses
 
 > **Future Interns — Machine Learning Internship | Task 1** > Repository: `FUTURE_ML_01`
