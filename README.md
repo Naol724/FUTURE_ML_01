@@ -1,5 +1,3 @@
-Here is your professionally polished, completely updated `README.md` file. It incorporates the exact codebase workflow you just ran, updates the steps to show off your new production pipeline scripts under `src/`, and gives it a highly professional finish for your internship evaluator and GitHub profile.
-
 ---
 
 # 📈 Sales & Demand Forecasting for Businesses
