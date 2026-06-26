@@ -44,10 +44,52 @@ FUTURE_ML_01/
 │   ├── forecasts/            # Generated business-ready forecast spreadsheets (CSV)
 │   └── charts/               # Saved high-resolution evaluation charts
 │
-├── requirements.txt          # Explicit Python dependencies
+├── backend/                  # FastAPI service exposing forecast analytics as a JSON API
+│   ├── app.py                # KPI, time-series, family & store, calibration endpoints
+│   └── requirements.txt      # API dependencies (fastapi, uvicorn, pandas, numpy)
+│
+├── frontend/                 # React + Vite + TypeScript analytics dashboard (Recharts)
+│   └── src/                  # Bento-grid UI, unique Syne/Sora/Space-Mono type system
+│
+├── Makefile                  # Convenience targets (install / backend / frontend / serve)
+├── requirements.txt          # Explicit Python dependencies (ML pipeline)
 └── README.md
 
 ```
+
+---
+
+## 🖥️ Interactive Dashboard (Frontend + API)
+
+On top of the ML pipeline, the repo ships a full-stack **analytics cockpit** that
+reads the pipeline output (`outputs/forecasts/final_sales_forecast.csv`) and
+renders it as a live, filterable dashboard — so the model and the UI work together
+end to end.
+
+* **Backend** — `FastAPI` + `pandas` (`backend/app.py`). Serves KPIs
+  (accuracy / WAPE / R² / MAE / RMSE / bias), the daily actual-vs-forecast series,
+  per-family and per-store breakdowns, and a predicted-vs-actual calibration sample.
+* **Frontend** — `React` + `Vite` + `TypeScript` with `Recharts`. A dark "aurora"
+  themed **bento-grid** interface with a distinctive type system
+  (**Syne** display · **Sora** body · **Space Mono** numerics) and store / product-family
+  filters that update every panel instantly.
+
+### Run it
+
+```bash
+# 1. Install everything (Python API + Node frontend)
+make install
+
+# 2a. Development — two terminals, with hot reload
+make backend      # API  -> http://127.0.0.1:8000
+make frontend     # UI   -> http://127.0.0.1:5173  (proxies /api to the backend)
+
+# 2b. Production — build the UI and serve the whole app from FastAPI
+make serve        # full app -> http://127.0.0.1:8000
+```
+
+> The dashboard reads `outputs/forecasts/final_sales_forecast.csv`. Re-run the ML
+> pipeline (below) to refresh the numbers the dashboard displays.
 
 ---
 
