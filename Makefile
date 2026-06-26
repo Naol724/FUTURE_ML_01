@@ -5,7 +5,7 @@ help:
 	@echo "  make install    Install backend (pip) and frontend (npm) dependencies"
 	@echo "  make backend    Run the FastAPI API on http://127.0.0.1:8000 (reload)"
 	@echo "  make frontend   Run the Vite dev server on http://127.0.0.1:5173"
-	@echo "  make build      Build the frontend bundle into backend/static"
+	@echo "  make build      Build the frontend bundle into backend/static (local full-stack)"
 	@echo "  make serve      Build the frontend, then serve the full app from FastAPI"
 
 install:
@@ -20,6 +20,7 @@ frontend:
 
 build:
 	cd frontend && npm run build
+	rm -rf backend/static && cp -r frontend/dist backend/static
 
 serve: build
 	uvicorn backend.app:app --port 8000
