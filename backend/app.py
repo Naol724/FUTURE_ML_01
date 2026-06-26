@@ -8,6 +8,7 @@ frontend so the model and the UI work together end to end.
 from __future__ import annotations
 
 import math
+import os
 from functools import lru_cache
 from pathlib import Path
 from typing import Optional
@@ -19,9 +20,29 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-FORECAST_CSV = BASE_DIR / "outputs" / "forecasts" / "final_sales_forecast.csv"
-FRONTEND_DIST = Path(__file__).resolve().parent / "static"
+APP_DIR = Path(__file__).resolve().parent
+BASE_DIR = APP_DIR.parent
+
+# Forecast data location. Defaults to the copy bundled inside ``backend/data`` so
+# the backend is self-contained and deployable on its own; falls back to the
+# pipeline output at the repo root. Override with the ``FORECAST_CSV`` env var.
+_BUNDLED_CSV = APP_DIR / "data" / "final_sales_forecast.csv"
+_PIPELINE_CSV = BASE_DIR / "outputs" / "forecasts" / "final_sales_forecast.csv"
+_env_csv = os.environ.get("FORECAST_CSV")
+if _env_csv:
+    FORECAST_CSV = Path(_env_csv)
+elif _BUNDLED_CSV.exists():
+    FORECAST_CSV = _BUNDLED_CSV
+else:
+    FORECAST_CSV = _PIPELINE_CSV
+
+FRONTEND_DIST = APP_DIR / "static"
+
+# Allowed CORS origins. The frontend is deployed separately (e.g. Vercel/Netlify),
+# so set ``CORS_ORIGINS`` to a comma-separated list of allowed origins in
+# production. Defaults to "*" for convenience in development.
+_cors_env = os.environ.get("CORS_ORIGINS", "*").strip()
+CORS_ORIGINS = ["*"] if _cors_env in ("", "*") else [o.strip() for o in _cors_env.split(",") if o.strip()]
 
 app = FastAPI(
     title="Sales & Demand Forecasting API",
@@ -31,7 +52,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=CORS_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )

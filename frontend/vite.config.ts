@@ -4,9 +4,10 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // Built assets are copied into backend/static and served by FastAPI.
+  // Builds to the default ./dist so the frontend can be deployed as a standalone
+  // static site (Vercel/Netlify). The API base is configured via VITE_API_BASE.
   build: {
-    outDir: '../backend/static',
+    outDir: 'dist',
     emptyOutDir: true,
   },
   server: {
