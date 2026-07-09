@@ -4,3 +4,14 @@ __pycache__/
 .ipynb_checkpoints/
 *.pyc
 .env
+
+# API service artifacts
+api/storage/
+
+# Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env.local
+frontend/next-env.d.ts
+*.tsbuildinfo

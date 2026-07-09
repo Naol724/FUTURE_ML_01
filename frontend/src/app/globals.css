@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Forecastly visual identity
+  --------------------------
+  Deep navy foundation + one vivid cyan accent. Light-mode-first,
+  data-dashboard aesthetic. Dark mode swaps the variable set only.
+*/
+:root {
+  --background: 210 40% 98%;
+  --foreground: 222 47% 11%;
+  --surface: 214 32% 96%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --muted: 214 32% 93%;
+  --muted-foreground: 218 15% 42%;
+  --border: 216 24% 88%;
+  --ring: 189 94% 38%;
+
+  --navy: 222 60% 12%;
+  --navy-foreground: 210 40% 98%;
+
+  --accent: 189 94% 38%;
+  --accent-foreground: 0 0% 100%;
+  --accent-soft: 189 90% 94%;
+
+  --success: 152 65% 36%;
+  --danger: 0 72% 46%;
+  --warning: 36 92% 44%;
+
+  --chart-actual: 222 60% 30%;
+  --chart-predicted: 189 94% 38%;
+}
+
+.dark {
+  --background: 222 50% 7%;
+  --foreground: 210 40% 96%;
+  --surface: 222 45% 10%;
+  --card: 222 44% 11%;
+  --card-foreground: 210 40% 96%;
+  --muted: 220 35% 16%;
+  --muted-foreground: 216 16% 66%;
+  --border: 220 30% 20%;
+  --ring: 189 94% 48%;
+
+  --navy: 222 60% 12%;
+  --navy-foreground: 210 40% 98%;
+
+  --accent: 189 94% 48%;
+  --accent-foreground: 222 60% 8%;
+  --accent-soft: 191 80% 16%;
+
+  --success: 152 60% 46%;
+  --danger: 0 80% 62%;
+  --warning: 36 92% 56%;
+
+  --chart-actual: 214 70% 72%;
+  --chart-predicted: 189 94% 52%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display tracking-tight;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer components {
+  /* Skeleton shimmer used by all loading states */
+  .skeleton {
+    @apply relative overflow-hidden rounded-lg bg-muted;
+  }
+  .skeleton::after {
+    content: "";
+    @apply absolute inset-0 -translate-x-full;
+    background: linear-gradient(90deg, transparent, hsl(var(--foreground) / 0.06), transparent);
+    animation: shimmer 1.6s infinite;
+  }
+
+  /* Subtle dotted-grid backdrop for hero sections */
+  .grid-backdrop {
+    background-image: radial-gradient(hsl(var(--foreground) / 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .sticky-first-col th:first-child,
+  .sticky-first-col td:first-child {
+    @apply sticky left-0 z-10 bg-card;
+  }
+}

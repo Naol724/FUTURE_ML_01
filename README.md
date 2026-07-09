@@ -1,26 +1,32 @@
-Here is your professionally polished, completely updated `README.md` file. It incorporates the exact codebase workflow you just ran, updates the steps to show off your new production pipeline scripts under `src/`, and gives it a highly professional finish for your internship evaluator and GitHub profile.
+# 📈 Forecastly — Sales & Demand Forecasting for Businesses
+
+> **Future Interns — Machine Learning Internship | Task 1**
+> Repository: [`FUTURE_ML_01`](https://github.com/Naol724/FUTURE_ML_01)
+
+An end-to-end machine learning product: a production ML pipeline (Random Forest, strict out-of-time validation) wrapped in a **FastAPI** service and delivered through a modern **Next.js** dashboard. Upload a sales CSV — or use the built-in sample dataset — train the model in the background, and explore interactive forecasts, accuracy metrics, and exportable reports. Deployable to **Render** with a single Blueprint.
 
 ---
 
-# 📈 Sales & Demand Forecasting for Businesses
+## 🚀 Live Demo
 
-> **Future Interns — Machine Learning Internship | Task 1** > Repository: `FUTURE_ML_01`
+| Service | URL |
+| --- | --- |
+| **Frontend (dashboard)** | `https://forecastly-frontend.onrender.com` *(update after deploy)* |
+| **API (docs)** | `https://forecastly-api.onrender.com/docs` *(update after deploy)* |
+
+> Free-tier instances sleep when idle — the first visit may take ~30 seconds while the server wakes up. The dashboard shows a friendly "waking up" banner while this happens.
 
 ---
 
-## 📌 Project Overview
+## ✨ What It Does
 
-This project implements an end-to-end Machine Learning production pipeline that forecasts future **sales and demand** using historical business trends. By moving from initial exploratory analysis to a modular production structure, this repository delivers accurate forecasts designed to assist businesses with optimized inventory management, proactive staffing, and strategic financial planning.
-
----
-
-## 🎯 Objectives
-
-* Clean, structure, and preprocess historical time-series data for scalable modeling.
-* Engineer advanced temporal features (including calendar attributes and rolling windows) to eliminate training data leakage.
-* Implement a strict chronological time-based split strategy ensuring precise out-of-time evaluation.
-* Train, test, and evaluate predictive accuracy using an ensemble **Random Forest Regressor**.
-* Deliver automated business-ready assets including visualization charts and forecast data spreadsheets.
+* **Drag-and-drop CSV upload** with client-side schema validation (`date, store_nbr, onpromotion, sales`) before anything touches the network — plus a one-click **sample dataset** for instant demos.
+* **Background model training** with live status polling, so large files never time out.
+* **Animated metric cards** — MAE, RMSE, R² — each with a plain-language tooltip explaining what the number means for the business.
+* **Interactive actual-vs-predicted chart** (Recharts), filterable by store, exportable as PNG.
+* **Sortable, paginated results table** with per-row delta, and one-click **CSV download** of the full forecast.
+* **Run history** — persisted to **MongoDB Atlas** server-side and localStorage client-side, so past runs survive restarts and can be reopened.
+* **Polished UX** — dark mode, skeleton loaders, empty/error states, mobile-responsive layout, keyboard navigation and ARIA labels throughout.
 
 ---
 
@@ -29,157 +35,155 @@ This project implements an end-to-end Machine Learning production pipeline that 
 ```
 FUTURE_ML_01/
 │
-├── data/
-│   ├── raw/                  # Original, unmodified Kaggle dataset (train.csv)
-│   └── processed/            # Cleaned and feature-engineered data
+├── frontend/                 # Next.js 14 (App Router) + TypeScript dashboard
+│   └── src/
+│       ├── app/              # Routes: / (landing), /dashboard, /history, /about
+│       ├── components/       # UI primitives + dashboard components
+│       └── lib/              # Typed API client (Zod), CSV validation, history store
 │
-├── notebooks/
-│   ├── 01_EDA.ipynb          # Exploratory Data Analysis & initial visualization
-│   ├── 02_preprocessing.ipynb # Experimental feature and engineering setups
-│   └── 03_modeling.ipynb     # High-level pipeline testing and evaluation execution
+├── api/                      # FastAPI wrapper around the ML pipeline
+│   ├── main.py               # Endpoints, background jobs, CORS, storage
+│   ├── db.py                 # Optional MongoDB Atlas run-history persistence
+│   ├── sample_data/          # Bundled demo dataset (543 rows, 3 stores)
+│   └── smoke_test.py         # End-to-end API test (python -m api.smoke_test)
 │
-├── src/                      # Production-Ready Modular Engine
-│   ├── preprocess.py         # Automated data loading and date parsing engines
-│   ├── features.py           # Chronological time-series splitting utilities
-│   ├── model.py              # Machine Learning modeling, training, and evaluation metrics
-│   └── visualize.py          # Production plotting and visualization export scripts
+├── src/                      # Production ML engine (imported by /api, unchanged)
+│   ├── preprocess.py         # Data loading and date parsing
+│   ├── features.py           # Chronological train/test splitting
+│   ├── model.py              # Random Forest training + evaluation metrics
+│   └── visualize.py          # Forecast chart export
 │
-├── outputs/
-│   ├── forecasts/            # Generated business-ready forecast spreadsheets (CSV)
-│   └── charts/               # Saved high-resolution evaluation charts
+├── notebooks/                # EDA, preprocessing and modeling notebooks
+├── data/                     # Raw Kaggle dataset + sample data (gitignored)
+├── outputs/                  # Generated forecasts (CSV) and charts (PNG)
 │
-├── requirements.txt          # Explicit Python dependencies
+├── render.yaml               # One-step Render Blueprint (deploys both services)
+├── DEPLOYMENT.md             # Step-by-step Render deployment guide
+├── requirements.txt          # Python dependencies (pipeline + API)
 └── README.md
-
 ```
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Tool / Library | Purpose |
+| Layer | Technology |
 | --- | --- |
-| **Python 3.9+** | Core programming language environment |
-| **Jupyter Notebook** | Interactive exploration and prototyping |
-| **Pandas** | High-performance data manipulation and aggregation |
-| **NumPy** | Advanced multi-dimensional numerical operations |
-| **Scikit-learn** | Production ML algorithms (Random Forest Regressor) and metrics |
-| **Matplotlib / Seaborn** | Statistical visualizations and automated forecast rendering |
+| **ML pipeline** | Python, Pandas, NumPy, scikit-learn (Random Forest Regressor), Matplotlib |
+| **API** | FastAPI, Uvicorn, background tasks, PyMongo (optional Atlas history) |
+| **Frontend** | Next.js 14 (App Router), TypeScript, Tailwind CSS, Recharts, TanStack Query, Zod |
+| **Design** | Deep navy + electric cyan identity, Space Grotesk / Inter type system, dark mode |
+| **Deployment** | Render (Blueprint: Python web service + Node web service), MongoDB Atlas |
 
 ---
 
-## ⚙️ Setup & Installation
+## ⚙️ Run Everything Locally
 
-### 1. Clone the Repository
+**Prerequisites:** Python 3.11+, Node.js 18+.
 
 ```bash
 git clone https://github.com/Naol724/FUTURE_ML_01.git
 cd FUTURE_ML_01
 
-```
-
-### 2. Create and Activate a Virtual Environment
-
-```bash
-# Initialize the environment
+# ── Terminal 1: API ──────────────────────────────────────
 python -m venv venv
+venv\Scripts\activate                # Windows  |  source venv/bin/activate (macOS/Linux)
+pip install -r requirements.txt
+uvicorn api.main:app --reload --port 8000
 
-# Activate on Windows
-venv\Scripts\activate
-
-# Activate on macOS/Linux
-source venv/bin/activate
-
+# ── Terminal 2: Frontend ─────────────────────────────────
+cd frontend
+npm install
+npm run dev                          # → http://localhost:3000
 ```
 
-### 3. Install Pinpoint Dependencies
+The frontend reads the API base URL from `frontend/.env.local`:
+
+```
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
+
+**Optional — persistent run history:** create a `.env` file at the repo root with your
+MongoDB Atlas connection string (the file is gitignored):
+
+```
+MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/?appName=Cluster0
+```
+
+Without it, everything still works; the History page simply shows browser-local runs only.
+
+**Verify the API end-to-end** (upload → train → metrics → chart → download):
 
 ```bash
-pip install -r requirements.txt
-
+python -m api.smoke_test
 ```
 
 ---
 
-## 📊 Dataset Ingestion
+## 🔌 API Endpoints
 
-This implementation utilizes the official **Kaggle Store Sales — Time Series Forecasting** dataset.
-
-* Place the source data file directly inside the raw directory path: `data/raw/train.csv`
-* Columns expected and parsed include: `date`, `store_nbr`, `onpromotion`, and the target variable `sales`.
-
----
-
-## 🔄 Execution & Production Pipeline
-
-The architecture transitions smoothly from interactive experimentation to a fully modularized production pipeline script.
-
-### Running the End-to-End Pipeline
-
-To run data preprocessing, train the model, compute performance metrics, and export all deliverables simultaneously, execute this single routine inside your notebook or main script:
-
-```python
-import sys
-sys.path.append('../src')
-
-from preprocess import load_and_preprocess_data
-from features import split_features_and_target
-from model import train_random_forest, evaluate_predictions
-from visualize import plot_and_save_forecast
-
-# 1. Ingest & Preprocess
-df_clean = load_and_preprocess_data("../data/raw/train.csv")
-X_train, y_train, X_test, y_test, test_subset = split_features_and_target(df_clean)
-
-# 2. Train Ensemble Model & Generate Predictions
-trained_model = train_random_forest(X_train, y_train)
-predictions = trained_model.predict(X_test)
-
-# 3. Compute Metrics and Save Deliverable Charts
-evaluate_predictions(y_test, predictions)
-plot_and_save_forecast(test_subset, predictions)
-
-```
-
----
-
-## 📏 Model Evaluation Metrics
-
-The predictive model is strictly benchmarked using business-standard regression metrics to guarantee out-of-sample consistency:
-
-| Metric | Business Description | Implementation |
+| Method | Endpoint | Purpose |
 | --- | --- | --- |
-| **MAE** | **Mean Absolute Error** — Average absolute units missed per prediction | `mean_absolute_error(y_test, y_pred)` |
-| **RMSE** | **Root Mean Squared Error** — Error metric that penalizes larger misses heavily | `np.sqrt(mean_squared_error(y_test, y_pred))` |
-| **R² Score** | **Coefficient of Determination** — Statistical goodness-of-fit (1.0 = perfect model) | `r2_score(y_test, y_pred)` |
+| `GET` | `/api/health` | Health check (used by Render + frontend cold-start banner) |
+| `POST` | `/api/upload` | Upload a CSV, validate schema, returns `dataset_id` |
+| `POST` | `/api/sample` | Register the bundled demo dataset, returns `dataset_id` |
+| `POST` | `/api/forecast/{dataset_id}` | Start training as a background job |
+| `GET` | `/api/forecast/{dataset_id}` | Poll job status; returns predictions + metrics when done |
+| `GET` | `/api/forecast/{dataset_id}/download` | Download the full forecast as CSV |
+| `GET` | `/api/forecast/{dataset_id}/chart` | Daily chart data as JSON (`?format=png` for the image) |
+| `GET` | `/api/history` | Past runs persisted in MongoDB Atlas |
+
+Interactive docs available at `/docs` (Swagger UI) when the API is running.
 
 ---
 
-## 💡 Key Pipeline Features Implemented
+## ☁️ Deployment (Render)
 
-* [x] **Automated Data Processing**: Converts native text objects to true datetimes with zero overhead.
-* [x] **Chronological Data Splitting**: Avoids random leaks by establishing strict out-of-time future validation.
-* [x] **Temporal Feature Engineering**: Extracts contextual calendar dependencies (`year`, `month`, `dayofweek`).
-* [x] **Modularized Infrastructure**: Code separated into isolated, maintainable production scripts inside `src/`.
-* [x] **Production Report Exports**: Saves visualization tracking charts directly to `outputs/charts/` and raw spreadsheets to `outputs/forecasts/`.
+The repo ships with a **`render.yaml` Blueprint** that deploys both services in one step:
+
+1. Push the repo to GitHub.
+2. In Render: **New → Blueprint** → connect the repo → **Apply**.
+3. Set the `MONGODB_URI` env var when prompted (it is never stored in the repo).
+4. After the first deploy, align the URLs: `NEXT_PUBLIC_API_URL` on the frontend and `CORS_ORIGINS` on the API.
+
+Full step-by-step instructions, manual setup, and free-tier notes: **[DEPLOYMENT.md](DEPLOYMENT.md)**.
+
+**Environment variables (never hardcoded):**
+
+| Variable | Service | Purpose |
+| --- | --- | --- |
+| `NEXT_PUBLIC_API_URL` | frontend | Base URL of the FastAPI service |
+| `CORS_ORIGINS` | api | Comma-separated allowed frontend origins |
+| `MONGODB_URI` | api | Atlas connection string for run history (optional) |
+| `MPLBACKEND=Agg` | api | Headless matplotlib for chart generation |
 
 ---
 
-## 📤 Final Deliverables Generated
+## 🧠 Methodology (How the Forecast Is Built)
 
-Upon successful pipeline completion, the following automated corporate assets are created:
+1. **Ingest & clean** — the CSV is parsed and calendar features (`year`, `month`, `day`, `dayofweek`) are extracted from each date.
+2. **Chronological split** — the first ~80% of the timeline trains the model; the most recent ~20% is held back for evaluation. The model never sees the future it is graded on, eliminating data leakage.
+3. **Ensemble training** — a Random Forest Regressor (50 trees) learns store-level patterns, weekly/seasonal rhythms, and promotion effects.
+4. **Honest evaluation** — all metrics are computed exclusively on the held-out future window:
 
-1. **Visual Forecast Performance Map**: Located at `outputs/charts/forecast_vs_actual.png`, showcasing the comparison of predicted demand alongside actual validation trends.
-2. **Business Reporting Matrix Spreadsheet**: Exported directly to `outputs/forecasts/final_sales_forecast.csv` for immediate cross-department reporting or power BI connection.
+| Metric | Business Meaning |
+| --- | --- |
+| **MAE** | Average units missed per prediction |
+| **RMSE** | Like MAE, but penalizes large misses heavily |
+| **R²** | Share of sales variation explained (1.0 = perfect) |
+
+5. **Deliverables** — a business-ready forecast CSV and an actual-vs-predicted chart, both exportable from the dashboard.
+
+Dataset: [Kaggle Store Sales — Time Series Forecasting](https://www.kaggle.com/competitions/store-sales-time-series-forecasting) (columns `date`, `store_nbr`, `onpromotion`, `sales`). Any CSV matching this schema works.
 
 ---
 
-## 🏆 Professional Skills Gained
+## 🏆 Skills Demonstrated
 
-* Architectural engineering of end-to-end Machine Learning pipelines.
-* Out-of-time chronological validation practices for predictive models.
-* Modular code optimization (`src/`) adhering to professional production engineering standards.
-* Quantitative business model benchmarking and analysis.
+* End-to-end ML product engineering: pipeline → API → frontend → cloud deployment.
+* Out-of-time chronological validation for trustworthy forecasting metrics.
+* Async job orchestration (background training + polling) and graceful degradation (cold starts, optional database).
+* Production frontend craft: typed API contracts (Zod), accessibility, responsive design, intentional loading/empty/error states.
 
 ---
 
@@ -203,7 +207,7 @@ Upon successful pipeline completion, the following automated corporate assets ar
 
 * **GitHub**: [@Naol724](https://github.com/Naol724)
 * **Website**: [naol.online](https://naol.online)
-* **Telegram**: [@nilegt_](https://www.google.com/search?q=https://t.me/nilegt_)
+* **Telegram**: [@nilegt_](https://t.me/nilegt_)
 
 ---
 

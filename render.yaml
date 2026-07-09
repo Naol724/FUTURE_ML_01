@@ -1,0 +1,44 @@
+# Render Blueprint: deploys both services from this monorepo.
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  # ------------------------------------------------------------------
+  # FastAPI wrapper around the existing ML pipeline (/api + /src)
+  # ------------------------------------------------------------------
+  - type: web
+    name: forecastly-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: MPLBACKEND
+        value: Agg
+      # Allow the deployed frontend origin (update after first deploy if the
+      # frontend URL differs).
+      - key: CORS_ORIGINS
+        value: https://forecastly-frontend.onrender.com,http://localhost:3000
+      # MongoDB Atlas connection string — set the value in the Render
+      # dashboard (never commit credentials to the repo).
+      - key: MONGODB_URI
+        sync: false
+
+  # ------------------------------------------------------------------
+  # Next.js frontend (/frontend)
+  # ------------------------------------------------------------------
+  - type: web
+    name: forecastly-frontend
+    runtime: node
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      # Public URL of the API service above (update after first deploy if
+      # Render assigns a different hostname).
+      - key: NEXT_PUBLIC_API_URL
+        value: https://forecastly-api.onrender.com
