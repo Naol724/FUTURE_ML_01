@@ -29,7 +29,7 @@ from pathlib import Path
 import pandas as pd
 from fastapi import BackgroundTasks, FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 
 # Make the existing ML modules in /src importable without modifying them.
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -79,7 +79,11 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,
-    allow_origin_regex=os.environ.get("CORS_ORIGIN_REGEX", r"https?://localhost(:\d+)?"),
+    # Also accept localhost (dev) and any *.onrender.com origin, so Render's
+    # auto-suffixed service names never break the frontend with CORS errors.
+    allow_origin_regex=os.environ.get(
+        "CORS_ORIGIN_REGEX", r"https?://localhost(:\d+)?|https://[a-z0-9-]+\.onrender\.com"
+    ),
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -236,6 +240,12 @@ def run_forecast_job(dataset_id: str) -> None:
 # ---------------------------------------------------------------------------
 # Endpoints
 # ---------------------------------------------------------------------------
+
+
+@app.get("/", include_in_schema=False)
+def root() -> RedirectResponse:
+    """Friendly landing for the bare API URL — sends visitors to the docs."""
+    return RedirectResponse(url="/docs")
 
 
 @app.get("/api/health")
