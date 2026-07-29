@@ -76,9 +76,14 @@ restarts.
 
 ## Free-tier notes
 
-- Free instances **spin down after ~15 minutes idle**. The frontend detects this: the
-  dashboard shows a "waking up the server" banner and retries the health check until the
-  API responds (typically < 30 s).
+- Free instances **spin down after ~15 minutes idle**. Three mitigations are built in:
+  1. A GitHub Actions workflow (`.github/workflows/keep-warm.yml`) pings both services
+     every 10 minutes during waking hours (05:00–16:59 UTC) so they stay warm without
+     exceeding Render's 750 free instance-hours/month. Adjust the cron window as needed.
+  2. Every frontend page fires a background health-check on load, so the API starts
+     waking the moment a visitor lands anywhere on the site.
+  3. The dashboard shows a "waking up the server" banner and retries the health check
+     until the API responds.
 - Uploaded datasets and forecast results are stored on the API service's **ephemeral disk**
   (`api/storage/`). They survive between requests but are wiped on redeploys/restarts —
   fine for a demo; attach a Render Disk if you need persistence.

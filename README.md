@@ -11,8 +11,8 @@ An end-to-end machine learning product: a production ML pipeline (Random Forest,
 
 | Service | URL |
 | --- | --- |
-| **Frontend (dashboard)** | `https://forecastly-frontend.onrender.com` *(update after deploy)* |
-| **API (docs)** | `https://forecastly-api.onrender.com/docs` *(update after deploy)* |
+| **Frontend (dashboard)** | [forecastly-frontend.onrender.com](https://forecastly-frontend.onrender.com) |
+| **API (docs)** | [forecastly-api-husd.onrender.com/docs](https://forecastly-api-husd.onrender.com/docs) |
 
 > Free-tier instances sleep when idle — the first visit may take ~30 seconds while the server wakes up. The dashboard shows a friendly "waking up" banner while this happens.
 

@@ -1,0 +1,25 @@
+# Keeps the Render free-tier services awake so visitors don't hit 60-90s cold starts.
+#
+# Render free instances spin down after ~15 minutes of inactivity, so we ping
+# both services every 10 minutes — but only for ~12 hours a day (05:00-16:59 UTC
+# = 08:00-19:59 East Africa Time). Two always-on free services would exceed
+# Render's 750 free instance-hours per month; this window keeps usage at ~740h.
+#
+# To change the warm window, edit the cron expression below (times are UTC).
+
+name: Keep Render services warm
+
+on:
+  schedule:
+    - cron: "*/10 5-16 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping API health endpoint
+        run: curl -fsS -m 120 https://forecastly-api-husd.onrender.com/api/health || echo "API ping failed (may be waking up)"
+
+      - name: Ping frontend
+        run: curl -fsS -m 120 -o /dev/null https://forecastly-frontend.onrender.com || echo "Frontend ping failed (may be waking up)"

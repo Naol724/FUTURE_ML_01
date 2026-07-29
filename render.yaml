@@ -38,7 +38,7 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "20"
-      # Public URL of the API service above (update after first deploy if
-      # Render assigns a different hostname).
+      # Public URL of the API service above (Render assigned this hostname
+      # on the first deploy).
       - key: NEXT_PUBLIC_API_URL
-        value: https://forecastly-api.onrender.com
+        value: https://forecastly-api-husd.onrender.com
