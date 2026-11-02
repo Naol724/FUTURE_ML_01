@@ -1,19 +1,61 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import localFont from "next/font/local";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { PrewarmApi } from "@/components/prewarm";
 import { Providers } from "@/components/providers";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
+/**
+ * Fonts are bundled locally (src/fonts) instead of fetched from Google Fonts
+ * at build/dev time. That avoids SSL interception failures on some Windows
+ * networks (UNABLE_TO_VERIFY_LEAF_SIGNATURE).
+ */
+const spaceGrotesk = localFont({
+  src: [
+    {
+      path: "../fonts/space-grotesk-latin-500-normal.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../fonts/space-grotesk-latin-600-normal.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../fonts/space-grotesk-latin-700-normal.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
   variable: "--font-display",
   display: "swap",
 });
 
-const inter = Inter({
-  subsets: ["latin"],
+const inter = localFont({
+  src: [
+    {
+      path: "../fonts/inter-latin-400-normal.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/inter-latin-500-normal.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../fonts/inter-latin-600-normal.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../fonts/inter-latin-700-normal.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
   variable: "--font-body",
   display: "swap",
 });
