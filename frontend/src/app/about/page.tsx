@@ -34,17 +34,18 @@ const pillars = [
 export default function AboutPage() {
   return (
     <>
-      <section className="relative isolate h-56 overflow-hidden md:h-72">
+      <section className="relative isolate h-56 overflow-hidden bg-navy md:h-64">
         <Image
           src="/images/analytics-dashboard.jpg"
           alt="Analytics dashboards used to evaluate forecast accuracy"
           fill
           priority
+          quality={55}
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-center opacity-35"
         />
-        <div className="absolute inset-0 bg-navy/75" aria-hidden="true" />
-        <div className="container relative flex h-full flex-col justify-end pb-8 text-navy-foreground">
+        <div className="absolute inset-0 bg-navy/80" aria-hidden="true" />
+        <div className="container relative z-10 flex h-full flex-col justify-end pb-8 text-white">
           <p className="mb-2 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-accent">
             <Layers className="size-3.5" aria-hidden="true" />
             Methodology
@@ -104,17 +105,24 @@ export default function AboutPage() {
           ))}
         </div>
 
-        <div className="relative mt-12 overflow-hidden rounded-2xl">
-          <Image
-            src="/images/retail-inventory.jpg"
-            alt="Retail inventory shelves representing demand planning context"
-            width={1200}
-            height={480}
-            className="h-48 w-full object-cover md:h-56"
-          />
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-navy/70 px-6 text-center text-navy-foreground">
+        {/* Text lives above a solid navy panel — photo is a thin decorative strip only */}
+        <div className="mt-12 overflow-hidden rounded-2xl bg-navy">
+          <div className="relative h-28 bg-muted md:h-36">
+            <Image
+              src="/images/retail-inventory.jpg"
+              alt=""
+              fill
+              quality={50}
+              loading="lazy"
+              sizes="(max-width: 768px) 100vw, 800px"
+              className="object-cover opacity-50"
+              aria-hidden="true"
+            />
+            <div className="absolute inset-0 bg-navy/50" aria-hidden="true" />
+          </div>
+          <div className="relative z-10 flex flex-col items-center px-6 py-8 text-center text-white">
             <TrendingUp className="mb-3 size-6 text-accent" aria-hidden="true" />
-            <p className="max-w-lg text-sm leading-relaxed text-navy-foreground/85">
+            <p className="max-w-lg text-sm leading-relaxed text-white/90">
               Built as Task 01 of the Future Interns Machine Learning track: an end-to-end pipeline
               from raw data to deployed product, with transparent out-of-time evaluation.
             </p>

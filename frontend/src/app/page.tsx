@@ -47,56 +47,59 @@ const steps = [
 export default function LandingPage() {
   return (
     <>
-      {/* Full-bleed hero — brand + one message + CTA over warehouse photography */}
-      <section className="relative isolate min-h-[88vh] overflow-hidden">
+      {/* Full-bleed hero — dark solid wash so copy stays readable over the photo */}
+      <section className="relative isolate min-h-[78vh] overflow-hidden bg-navy md:min-h-[85vh]">
         <Image
           src="/images/hero-warehouse.jpg"
           alt="Warehouse shelves stocked for inventory planning"
           fill
           priority
+          quality={65}
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-center opacity-45"
         />
+        {/* Full dark wash + left emphasis — prevents photo from washing out text */}
+        <div className="absolute inset-0 bg-navy/70" aria-hidden="true" />
         <div
-          className="absolute inset-0 bg-gradient-to-r from-navy/92 via-navy/78 to-navy/45"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-navy/30"
+          className="absolute inset-0 bg-gradient-to-r from-navy via-navy/85 to-navy/40"
           aria-hidden="true"
         />
 
-        <div className="container relative flex min-h-[88vh] flex-col justify-end pb-16 pt-28 md:justify-center md:pb-24 md:pt-20">
-          <p className="animate-fade-up font-display text-sm font-semibold uppercase tracking-[0.28em] text-accent">
-            Forecastly
-          </p>
-          <h1 className="animate-fade-up mt-4 max-w-3xl text-4xl font-bold leading-[1.08] text-navy-foreground md:text-6xl lg:text-7xl [animation-delay:80ms]">
-            Sales &amp; demand forecasting for real inventory decisions
-          </h1>
-          <p className="animate-fade-up mt-5 max-w-xl text-base leading-relaxed text-navy-foreground/80 md:text-lg [animation-delay:160ms]">
-            Turn historical sales into trusted demand forecasts — so your team can plan stock,
-            staffing and budgets with confidence.
-          </p>
-          <div className="animate-fade-up mt-9 flex flex-col gap-3 sm:flex-row [animation-delay:240ms]">
-            <Link
-              href="/dashboard"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-accent px-7 text-base font-semibold text-accent-foreground shadow-glow transition-all duration-300 hover:brightness-110"
-            >
-              Start forecasting
-              <ArrowRight className="size-4" aria-hidden="true" />
-            </Link>
-            <Link
-              href="/about"
-              className="inline-flex h-12 items-center justify-center rounded-xl border border-navy-foreground/25 bg-navy-foreground/5 px-7 text-base font-medium text-navy-foreground backdrop-blur-sm transition-colors hover:bg-navy-foreground/10"
-            >
-              How it works
-            </Link>
+        <div className="container relative z-10 flex min-h-[78vh] flex-col justify-center py-20 md:min-h-[85vh] md:py-24">
+          <div className="max-w-2xl rounded-2xl bg-navy/55 p-6 backdrop-blur-[2px] sm:p-8 md:bg-transparent md:p-0 md:backdrop-blur-none">
+            <p className="font-display text-sm font-semibold uppercase tracking-[0.28em] text-accent">
+              Forecastly
+            </p>
+            <h1 className="mt-4 text-4xl font-bold leading-[1.08] text-white drop-shadow-sm md:text-6xl lg:text-7xl">
+              Sales &amp; demand forecasting for real inventory decisions
+            </h1>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-white/90 md:text-lg">
+              Turn historical sales into trusted demand forecasts — so your team can plan stock,
+              staffing and budgets with confidence.
+            </p>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/dashboard"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-accent px-7 text-base font-semibold text-accent-foreground shadow-glow transition-all duration-300 hover:brightness-110"
+              >
+                Start forecasting
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+              <Link
+                href="/about"
+                className="inline-flex h-12 items-center justify-center rounded-xl border border-white/30 bg-white/10 px-7 text-base font-medium text-white transition-colors hover:bg-white/15"
+              >
+                How it works
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Value props — one purpose: why Forecastly */}
-      <section className="border-b border-border bg-background py-16 md:py-20" aria-labelledby="value-props-heading">
+      <section
+        className="border-b border-border bg-background py-16 md:py-20"
+        aria-labelledby="value-props-heading"
+      >
         <div className="container">
           <h2 id="value-props-heading" className="max-w-2xl text-3xl font-bold md:text-4xl">
             Built for operators who need numbers they can trust
@@ -106,7 +109,7 @@ export default function LandingPage() {
           </p>
           <ul className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
             {valueProps.map((prop) => (
-              <li key={prop.title} className="animate-fade-up">
+              <li key={prop.title}>
                 <span className="mb-4 flex size-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
                   <prop.icon className="size-5" aria-hidden="true" />
                 </span>
@@ -118,7 +121,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* How it works — photo-led steps */}
+      {/* Photo + text side-by-side — text never sits on top of the photo */}
       <section className="bg-surface py-16 md:py-24" aria-labelledby="steps-heading">
         <div className="container">
           <div className="mb-12 max-w-2xl">
@@ -138,16 +141,18 @@ export default function LandingPage() {
                     reversed ? "md:[&>*:first-child]:order-2" : ""
                   }`}
                 >
-                  <div className="relative aspect-[16/10] overflow-hidden rounded-2xl">
+                  <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-muted">
                     <Image
                       src={step.image}
                       alt={step.alt}
                       fill
+                      quality={60}
+                      loading="lazy"
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover transition-transform duration-700 hover:scale-[1.03]"
+                      className="object-cover"
                     />
                   </div>
-                  <div>
+                  <div className="relative z-10">
                     <span className="mb-4 inline-flex size-11 items-center justify-center rounded-xl bg-navy text-accent">
                       <step.icon className="size-5" aria-hidden="true" />
                     </span>
@@ -166,20 +171,22 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Closing CTA */}
-      <section className="relative isolate overflow-hidden py-20 md:py-28">
+      {/* CTA — solid navy first; photo is decorative and heavily dimmed */}
+      <section className="relative isolate overflow-hidden bg-navy py-20 md:py-28">
         <Image
           src="/images/business-planning.jpg"
           alt=""
           fill
+          quality={50}
+          loading="lazy"
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-center opacity-20"
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-navy/88" aria-hidden="true" />
-        <div className="container relative text-center text-navy-foreground">
+        <div className="absolute inset-0 bg-navy/80" aria-hidden="true" />
+        <div className="container relative z-10 text-center text-white">
           <h2 className="text-3xl font-bold md:text-5xl">Ready to see your forecast?</h2>
-          <p className="mx-auto mt-4 max-w-xl text-navy-foreground/75">
+          <p className="mx-auto mt-4 max-w-xl text-white/85">
             Load the sample dataset or upload your own sales history — store-level predictions and
             transparent accuracy metrics in minutes.
           </p>
