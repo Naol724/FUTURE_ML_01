@@ -1,7 +1,7 @@
 import { CalendarClock, Layers, Network, Ruler, Split, TrendingUp } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Methodology",
@@ -33,81 +33,100 @@ const pillars = [
 
 export default function AboutPage() {
   return (
-    <div className="container max-w-4xl py-10 md:py-14">
-      <div className="mb-10">
-        <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-accent-soft px-3 py-1 text-xs font-medium text-accent">
-          <Layers className="size-3.5" aria-hidden="true" />
-          Methodology
-        </p>
-        <h1 className="text-3xl font-bold md:text-5xl">
-          How the forecast is built
-        </h1>
-        <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+    <>
+      <section className="relative isolate h-56 overflow-hidden md:h-72">
+        <Image
+          src="/images/analytics-dashboard.jpg"
+          alt="Analytics dashboards used to evaluate forecast accuracy"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-navy/75" aria-hidden="true" />
+        <div className="container relative flex h-full flex-col justify-end pb-8 text-navy-foreground">
+          <p className="mb-2 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-accent">
+            <Layers className="size-3.5" aria-hidden="true" />
+            Methodology
+          </p>
+          <h1 className="max-w-3xl text-3xl font-bold md:text-5xl">How the forecast is built</h1>
+        </div>
+      </section>
+
+      <div className="container max-w-4xl py-10 md:py-14">
+        <p className="text-lg leading-relaxed text-muted-foreground">
           Forecastly wraps a production machine-learning pipeline originally developed for the
           Kaggle “Store Sales — Time Series Forecasting” dataset. Here's what happens between
           uploading a CSV and seeing a forecast, explained without the jargon.
         </p>
-      </div>
 
-      <ol className="relative mb-12 space-y-6 border-l-2 border-border pl-6">
-        {[
-          {
-            step: "Ingest & clean",
-            body: "The uploaded CSV is parsed, dates are converted to real timestamps, and calendar attributes are extracted from each date.",
-          },
-          {
-            step: "Split by time",
-            body: "Roughly the first 80% of the timeline becomes training data; the most recent 20% is held back as the evaluation window.",
-          },
-          {
-            step: "Train the ensemble",
-            body: "A Random Forest Regressor (50 trees) learns the relationship between store, promotions, calendar features and sales.",
-          },
-          {
-            step: "Evaluate & report",
-            body: "The model predicts the held-back window; MAE, RMSE and R² are computed and the full forecast is exported as CSV and chart.",
-          },
-        ].map((item, i) => (
-          <li key={item.step} className="relative">
-            <span
-              className="absolute -left-[31px] flex size-6 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground"
-              aria-hidden="true"
-            >
-              {i + 1}
-            </span>
-            <h2 className="font-semibold">{item.step}</h2>
-            <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
-          </li>
-        ))}
-      </ol>
+        <ol className="relative mb-12 mt-10 space-y-6 border-l-2 border-border pl-6">
+          {[
+            {
+              step: "Ingest & clean",
+              body: "The uploaded CSV is parsed, dates are converted to real timestamps, and calendar attributes are extracted from each date.",
+            },
+            {
+              step: "Split by time",
+              body: "Roughly the first 80% of the timeline becomes training data; the most recent 20% is held back as the evaluation window.",
+            },
+            {
+              step: "Train the ensemble",
+              body: "A Random Forest Regressor (50 trees) learns the relationship between store, promotions, calendar features and sales.",
+            },
+            {
+              step: "Evaluate & report",
+              body: "The model predicts the held-back window; MAE, RMSE and R² are computed and the full forecast is exported as CSV and chart.",
+            },
+          ].map((item, i) => (
+            <li key={item.step} className="relative">
+              <span
+                className="absolute -left-[31px] flex size-6 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground"
+                aria-hidden="true"
+              >
+                {i + 1}
+              </span>
+              <h2 className="font-semibold">{item.step}</h2>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
+            </li>
+          ))}
+        </ol>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        {pillars.map((pillar) => (
-          <Card key={pillar.title}>
-            <CardContent className="p-6">
+        <div className="grid gap-6 sm:grid-cols-2">
+          {pillars.map((pillar) => (
+            <article key={pillar.title} className="border-t border-border pt-5">
               <span className="mb-3 flex size-10 items-center justify-center rounded-xl bg-navy text-accent">
                 <pillar.icon className="size-5" aria-hidden="true" />
               </span>
               <h2 className="mb-2 font-semibold">{pillar.title}</h2>
               <p className="text-sm leading-relaxed text-muted-foreground">{pillar.body}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+            </article>
+          ))}
+        </div>
 
-      <div className="mt-12 rounded-2xl bg-surface p-6 text-center">
-        <TrendingUp className="mx-auto mb-3 size-6 text-accent" aria-hidden="true" />
-        <p className="mx-auto max-w-lg text-sm leading-relaxed text-muted-foreground">
-          Built as Task 01 of the Future Interns Machine Learning track: an end-to-end pipeline
-          from raw data to deployed product, with transparent out-of-time evaluation.
-        </p>
-        <Link
-          href="/dashboard"
-          className="mt-5 inline-flex h-10 items-center rounded-xl bg-accent px-5 text-sm font-semibold text-accent-foreground transition-all hover:brightness-110"
-        >
-          Try it on your data
-        </Link>
+        <div className="relative mt-12 overflow-hidden rounded-2xl">
+          <Image
+            src="/images/retail-inventory.jpg"
+            alt="Retail inventory shelves representing demand planning context"
+            width={1200}
+            height={480}
+            className="h-48 w-full object-cover md:h-56"
+          />
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-navy/70 px-6 text-center text-navy-foreground">
+            <TrendingUp className="mb-3 size-6 text-accent" aria-hidden="true" />
+            <p className="max-w-lg text-sm leading-relaxed text-navy-foreground/85">
+              Built as Task 01 of the Future Interns Machine Learning track: an end-to-end pipeline
+              from raw data to deployed product, with transparent out-of-time evaluation.
+            </p>
+            <Link
+              href="/dashboard"
+              className="mt-5 inline-flex h-10 items-center rounded-xl bg-accent px-5 text-sm font-semibold text-accent-foreground transition-all hover:brightness-110"
+            >
+              Try it on your data
+            </Link>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

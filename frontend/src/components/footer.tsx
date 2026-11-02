@@ -5,11 +5,14 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-surface">
       <div className="container flex flex-col items-center justify-between gap-4 py-8 text-sm text-muted-foreground sm:flex-row">
-        <div className="flex items-center gap-2">
-          <TrendingUp className="size-4 text-accent" aria-hidden="true" />
-          <span className="font-display font-semibold text-foreground">Forecastly</span>
-          <span aria-hidden="true">·</span>
-          <span>Future Interns — ML Task 01</span>
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2">
+          <span className="inline-flex items-center gap-2">
+            <TrendingUp className="size-4 text-accent" aria-hidden="true" />
+            <span className="font-display font-semibold text-foreground">Forecastly</span>
+            <span aria-hidden="true">·</span>
+            <span>Future Interns — ML Task 01</span>
+          </span>
+          <span className="text-xs sm:ml-2">Photos via Unsplash</span>
         </div>
         <nav className="flex items-center gap-4" aria-label="Footer navigation">
           <Link href="/dashboard" className="hover:text-foreground">

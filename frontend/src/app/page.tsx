@@ -1,88 +1,93 @@
-import {
-  ArrowRight,
-  BarChart3,
-  Download,
-  Gauge,
-  LineChart,
-  ShieldCheck,
-  UploadCloud,
-  Zap,
-} from "lucide-react";
+import { ArrowRight, BarChart3, Download, Gauge, LineChart, UploadCloud, Zap } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 
 const valueProps = [
   {
     icon: Gauge,
     title: "Accuracy you can verify",
-    body: "Every forecast ships with MAE, RMSE and R² computed on a strict out-of-time holdout — no cherry-picked numbers.",
+    body: "Every forecast ships with MAE, RMSE and R² on a strict out-of-time holdout — no cherry-picked numbers.",
   },
   {
     icon: Zap,
     title: "Automation end-to-end",
-    body: "Upload a CSV and the pipeline handles preprocessing, feature engineering, training and evaluation automatically.",
+    body: "Upload a CSV and the pipeline handles preprocessing, feature engineering, training and evaluation.",
   },
   {
     icon: Download,
     title: "Exportable reports",
-    body: "Download the full forecast as a business-ready CSV, or export the interactive chart as a PNG for slide decks.",
+    body: "Download the full forecast as CSV, or export the interactive chart as PNG for slide decks.",
   },
 ];
 
 const steps = [
   {
     icon: UploadCloud,
-    title: "1. Upload your history",
-    body: "Drag in a CSV of historical sales (date, store, promotions, sales). We validate the schema before anything is sent.",
+    title: "Upload your history",
+    body: "Drop in a CSV of historical sales. We validate the schema before anything is sent.",
+    image: "/images/retail-inventory.jpg",
+    alt: "Retail store aisle with products on shelves",
   },
   {
     icon: LineChart,
-    title: "2. Train the model",
-    body: "A Random Forest ensemble learns seasonality, promotion effects and store-level patterns from your data.",
+    title: "Train the model",
+    body: "A Random Forest ensemble learns seasonality, promotions and store-level demand patterns.",
+    image: "/images/analytics-dashboard.jpg",
+    alt: "Analytics charts and dashboards on a computer screen",
   },
   {
     icon: BarChart3,
-    title: "3. Act on the forecast",
-    body: "Explore actual vs. predicted demand per store, review error metrics, and export everything your team needs.",
+    title: "Act on the forecast",
+    body: "Explore actual vs. predicted demand, review metrics, and export what your team needs.",
+    image: "/images/business-planning.jpg",
+    alt: "Business analytics graphs used for planning",
   },
 ];
 
 export default function LandingPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="grid-backdrop relative overflow-hidden">
+      {/* Full-bleed hero — brand + one message + CTA over warehouse photography */}
+      <section className="relative isolate min-h-[88vh] overflow-hidden">
+        <Image
+          src="/images/hero-warehouse.jpg"
+          alt="Warehouse shelves stocked for inventory planning"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[480px] bg-gradient-to-b from-accent/10 via-transparent to-transparent"
+          className="absolute inset-0 bg-gradient-to-r from-navy/92 via-navy/78 to-navy/45"
           aria-hidden="true"
         />
-        <div className="container relative flex flex-col items-center py-20 text-center md:py-28">
-          <Badge variant="accent" className="animate-fade-up mb-6">
-            <ShieldCheck className="size-3.5" aria-hidden="true" />
-            Chronologically validated forecasts
-          </Badge>
-          <h1 className="animate-fade-up max-w-3xl text-4xl font-bold leading-tight md:text-6xl [animation-delay:80ms]">
-            AI-powered sales &amp; demand forecasting{" "}
-            <span className="bg-gradient-to-r from-accent to-navy bg-clip-text text-transparent dark:to-accent/50">
-              for businesses
-            </span>
-          </h1>
-          <p className="animate-fade-up mt-6 max-w-2xl text-lg text-muted-foreground [animation-delay:160ms]">
-            Turn historical sales data into reliable demand forecasts. Upload a CSV, train an
-            ensemble model in seconds, and plan inventory, staffing and budgets with confidence.
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-navy/30"
+          aria-hidden="true"
+        />
+
+        <div className="container relative flex min-h-[88vh] flex-col justify-end pb-16 pt-28 md:justify-center md:pb-24 md:pt-20">
+          <p className="animate-fade-up font-display text-sm font-semibold uppercase tracking-[0.28em] text-accent">
+            Forecastly
           </p>
-          <div className="animate-fade-up mt-10 flex flex-col items-center gap-3 sm:flex-row [animation-delay:240ms]">
+          <h1 className="animate-fade-up mt-4 max-w-3xl text-4xl font-bold leading-[1.08] text-navy-foreground md:text-6xl lg:text-7xl [animation-delay:80ms]">
+            Sales &amp; demand forecasting for real inventory decisions
+          </h1>
+          <p className="animate-fade-up mt-5 max-w-xl text-base leading-relaxed text-navy-foreground/80 md:text-lg [animation-delay:160ms]">
+            Turn historical sales into trusted demand forecasts — so your team can plan stock,
+            staffing and budgets with confidence.
+          </p>
+          <div className="animate-fade-up mt-9 flex flex-col gap-3 sm:flex-row [animation-delay:240ms]">
             <Link
               href="/dashboard"
-              className="inline-flex h-12 items-center gap-2 rounded-xl bg-accent px-7 text-base font-semibold text-accent-foreground shadow-glow transition-all hover:brightness-110"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-accent px-7 text-base font-semibold text-accent-foreground shadow-glow transition-all duration-300 hover:brightness-110"
             >
               Start forecasting
               <ArrowRight className="size-4" aria-hidden="true" />
             </Link>
             <Link
               href="/about"
-              className="inline-flex h-12 items-center rounded-xl border border-border bg-card px-7 text-base font-medium transition-colors hover:bg-muted"
+              className="inline-flex h-12 items-center justify-center rounded-xl border border-navy-foreground/25 bg-navy-foreground/5 px-7 text-base font-medium text-navy-foreground backdrop-blur-sm transition-colors hover:bg-navy-foreground/10"
             >
               How it works
             </Link>
@@ -90,64 +95,97 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Value props */}
-      <section className="container py-16 md:py-20" aria-labelledby="value-props-heading">
-        <h2 id="value-props-heading" className="sr-only">
-          Why Forecastly
-        </h2>
-        <div className="grid gap-5 md:grid-cols-3">
-          {valueProps.map((prop) => (
-            <Card key={prop.title} className="group hover:shadow-card-hover">
-              <CardContent className="p-6">
-                <span className="mb-4 flex size-11 items-center justify-center rounded-xl bg-accent-soft text-accent transition-transform duration-300 group-hover:scale-110">
+      {/* Value props — one purpose: why Forecastly */}
+      <section className="border-b border-border bg-background py-16 md:py-20" aria-labelledby="value-props-heading">
+        <div className="container">
+          <h2 id="value-props-heading" className="max-w-2xl text-3xl font-bold md:text-4xl">
+            Built for operators who need numbers they can trust
+          </h2>
+          <p className="mt-3 max-w-2xl text-muted-foreground">
+            Chronological validation, automated training, and reports your team can use the same day.
+          </p>
+          <ul className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
+            {valueProps.map((prop) => (
+              <li key={prop.title} className="animate-fade-up">
+                <span className="mb-4 flex size-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
                   <prop.icon className="size-5" aria-hidden="true" />
                 </span>
-                <h3 className="mb-2 text-lg font-semibold">{prop.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">{prop.body}</p>
-              </CardContent>
-            </Card>
-          ))}
+                <h3 className="text-lg font-semibold">{prop.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{prop.body}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="border-y border-border bg-surface py-16 md:py-20">
+      {/* How it works — photo-led steps */}
+      <section className="bg-surface py-16 md:py-24" aria-labelledby="steps-heading">
         <div className="container">
-          <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold md:text-4xl">From spreadsheet to forecast</h2>
-            <p className="mt-3 text-muted-foreground">
-              Three steps. No data science team required.
-            </p>
+          <div className="mb-12 max-w-2xl">
+            <h2 id="steps-heading" className="text-3xl font-bold md:text-4xl">
+              From spreadsheet to forecast
+            </h2>
+            <p className="mt-3 text-muted-foreground">Three steps. No data science team required.</p>
           </div>
-          <ol className="grid gap-5 md:grid-cols-3">
-            {steps.map((step) => (
-              <li key={step.title} className="rounded-2xl border border-border bg-card p-6">
-                <span className="mb-4 flex size-11 items-center justify-center rounded-xl bg-navy text-accent">
-                  <step.icon className="size-5" aria-hidden="true" />
-                </span>
-                <h3 className="mb-2 text-lg font-semibold">{step.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">{step.body}</p>
-              </li>
-            ))}
+
+          <ol className="space-y-14 md:space-y-20">
+            {steps.map((step, index) => {
+              const reversed = index % 2 === 1;
+              return (
+                <li
+                  key={step.title}
+                  className={`grid items-center gap-8 md:grid-cols-2 md:gap-12 ${
+                    reversed ? "md:[&>*:first-child]:order-2" : ""
+                  }`}
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden rounded-2xl">
+                    <Image
+                      src={step.image}
+                      alt={step.alt}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover transition-transform duration-700 hover:scale-[1.03]"
+                    />
+                  </div>
+                  <div>
+                    <span className="mb-4 inline-flex size-11 items-center justify-center rounded-xl bg-navy text-accent">
+                      <step.icon className="size-5" aria-hidden="true" />
+                    </span>
+                    <p className="mb-2 font-display text-sm font-semibold uppercase tracking-wider text-accent">
+                      Step {index + 1}
+                    </p>
+                    <h3 className="text-2xl font-bold md:text-3xl">{step.title}</h3>
+                    <p className="mt-3 max-w-md text-base leading-relaxed text-muted-foreground">
+                      {step.body}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
           </ol>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="container py-16 md:py-24">
-        <div className="grid-backdrop relative overflow-hidden rounded-2xl bg-navy px-6 py-14 text-center text-navy-foreground md:py-20">
-          <div
-            className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-accent/20 via-transparent to-transparent"
-            aria-hidden="true"
-          />
-          <h2 className="relative text-3xl font-bold md:text-4xl">Ready to see your forecast?</h2>
-          <p className="relative mx-auto mt-3 max-w-xl text-navy-foreground/70">
-            Upload your first dataset and get store-level demand predictions with transparent
-            accuracy metrics in minutes.
+      {/* Closing CTA */}
+      <section className="relative isolate overflow-hidden py-20 md:py-28">
+        <Image
+          src="/images/business-planning.jpg"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-navy/88" aria-hidden="true" />
+        <div className="container relative text-center text-navy-foreground">
+          <h2 className="text-3xl font-bold md:text-5xl">Ready to see your forecast?</h2>
+          <p className="mx-auto mt-4 max-w-xl text-navy-foreground/75">
+            Load the sample dataset or upload your own sales history — store-level predictions and
+            transparent accuracy metrics in minutes.
           </p>
           <Link
             href="/dashboard"
-            className="relative mt-8 inline-flex h-12 items-center gap-2 rounded-xl bg-accent px-7 text-base font-semibold text-accent-foreground transition-all hover:brightness-110"
+            className="mt-8 inline-flex h-12 items-center gap-2 rounded-xl bg-accent px-7 text-base font-semibold text-accent-foreground transition-all hover:brightness-110"
           >
             Open the dashboard
             <ArrowRight className="size-4" aria-hidden="true" />
